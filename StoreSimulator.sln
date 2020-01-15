@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.960
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreSimulator", "StoreSimulator\StoreSimulator.csproj", "{4B4668F8-804E-49BF-BC2F-F6A06B4D1046}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreManager.Api", "StoreManager.Api\StoreManager.Api.csproj", "{8C19A6A0-7EA7-4A53-867B-A49C3552E27C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4B4668F8-804E-49BF-BC2F-F6A06B4D1046}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B4668F8-804E-49BF-BC2F-F6A06B4D1046}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B4668F8-804E-49BF-BC2F-F6A06B4D1046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C19A6A0-7EA7-4A53-867B-A49C3552E27C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C19A6A0-7EA7-4A53-867B-A49C3552E27C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C19A6A0-7EA7-4A53-867B-A49C3552E27C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C19A6A0-7EA7-4A53-867B-A49C3552E27C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
