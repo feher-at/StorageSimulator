@@ -6,7 +6,7 @@ using System.Text;
 
 namespace StoreManager.Api
 {
-    class Computer
+    public class Computer
     {
         private List<Storage> Storages = new List<Storage>();
         public List<Storage> GetStorages()
