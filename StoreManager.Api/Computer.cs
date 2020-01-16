@@ -56,64 +56,44 @@ namespace StoreManager.Api
                 Console.WriteLine($"the {element.StoreName} reserved capacity is : {element.maxCapacity} / {element.ReservedCapacity}");
             }
         }
-        public void Archive(string fileName, string storingPlaceName = "")
+        public void Archive(Storage storage1,Storage storage2)
         {
             Random rnd = new Random();
 
             string[] AFstring = new string[5];
-            int ignoreThisHdd = 0;
-
-            for (int index = 0; index < Storages.Count; index++)
+            if (GetStorages().Count == 1)
             {
-                int result = 0;
-                ignoreThisHdd++;
-                int fileCount = Storages[index].FileListToComputer().Count();
-                for (int i = 0; i < fileCount; i++)
-
-                {
-                    if (Storages[index].FileListToComputer()[i].FileName == fileName)
-                    {
-                        AFstring = Storages[index].FileListToComputer()[i].ToString().Split(',');
-                        Storages[index].Remove(Storages[index].FileListToComputer()[i].FileName);
-                        result++;
-                        break;
-                    }
-
-                }
-                if (result == 1)
-                    break;
-                else if (index == Storages.Count - 1)
-                {
-                    throw new Exception($"there is no such file on this computer");
-                }
+                throw new Exception("You need at least two mounted storage");
             }
-
-            if (storingPlaceName != "")
+            if (storage1.Equals(storage2))
             {
-                for (int i = 0; i < Storages.Count; i++)
-                {
-                    if (Storages[i].StoreName == storingPlaceName)
-                    {
-                        Storages[i].AddFile(AFstring[0], Convert.ToInt32(AFstring[1]), Convert.ToBoolean(AFstring[2]), AFstring[3], Convert.ToBoolean(AFstring[4]));
-                    }
-                    else if (Storages[i].FileListToComputer()[i].FileName != fileName && i == Storages.Count - 1)
-                        throw new Exception("There is no such storage on the computer");
-                }
-
+                throw new Exception("the two chose storage is the same");
             }
             else
             {
-
-                while (true)
+                foreach(File element in storage1.GetFileList())
                 {
-                    int hddCount = rnd.Next(0, Storages.Count());
-                    if (hddCount != (ignoreThisHdd - 1) && Storages[hddCount].FreeCapacity > Convert.ToInt32(AFstring[1]))
+                    int result = 0;
+                    foreach(File file in storage2.GetFileList())
                     {
-                        Storages[hddCount].AddFile(AFstring[0], Convert.ToInt32(AFstring[1]), Convert.ToBoolean(AFstring[2]), AFstring[3], Convert.ToBoolean(AFstring[4]));
-                        break;
+                        if(element.Equals(file))
+                        {
+                            result++;
+                        }
+
+                    }
+                    if (result > 0)
+                        continue;
+                    else
+                    {
+                        AFstring = element.ToString().Split(',');
+                        storage2.AddFile(AFstring[0], Convert.ToInt32(AFstring[1]), Convert.ToBoolean(AFstring[2]), AFstring[3], Convert.ToBoolean(AFstring[4]));
                     }
                 }
             }
+
+           
+            
         }
     }
 }

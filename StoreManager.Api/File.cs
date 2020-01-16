@@ -29,5 +29,20 @@ namespace StoreManager.Api
             return sb.ToString();
         }
 
+        public override bool Equals(object obj)
+        {
+            if(obj == null)
+            {
+                return false;
+            }
+            if (!(obj is File))
+            { return false; }
+            return this.FileName == ((File)obj).FileName &&
+                    this.FileSize == ((File)obj).FileSize;
+        }
+        public override int GetHashCode()
+        {
+            return this.FileName.GetHashCode() ^ this.FileSize.GetHashCode();
+        }
     }
 }

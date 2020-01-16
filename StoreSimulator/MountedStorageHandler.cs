@@ -32,6 +32,7 @@ namespace StoreSimulator
             {
                 Console.WriteLine(menuPoint);
             }
+            Console.WriteLine();
         }
 
         private Storage SelectMounted()
@@ -58,17 +59,62 @@ namespace StoreSimulator
         public void MountedMenu()
         {
             if(computer.GetStorages().Count == 0)
-            { 
+            {
                 MsConsoleLogger.Error("Mount a storage first");
+                return;
+                
             }
             else
             {
                 Storage ChoosedStorage = SelectMounted();
-                while(true)
+                while (true)
                 {
 
                     MountedMenuList();
-                    MsConsoleLogger.UserInput("G");
+                    MsConsoleLogger.UserInput("Choose a menu: ");
+                    string answer = Console.ReadLine().ToLower();
+
+                    if (answer == "addfile" || answer == "add file")
+                    {
+
+                        string[] fileParams = new string[] {  "file name",
+                                                                "file size",
+                                                                "only read(true/false)",
+                                                                "system",
+                                                                "hidden(true/false)"};
+                        List<string> fp = new List<string>();
+                        foreach (string param in fileParams)
+                        {
+                            MsConsoleLogger.UserInput($"Give me  {param}: ");
+                            fp.Add(Console.ReadLine());
+                        }
+                        ChoosedStorage.AddFile(fp[0], Convert.ToInt32(fp[1]), Convert.ToBoolean(fp[2]), fp[3], Convert.ToBoolean(fp[4]));
+
+                    }
+                    else if (answer == "remove")
+                    {
+                        if (ChoosedStorage.GetFileList().Count == 0)
+                        { MsConsoleLogger.Error("The storage is empty"); }
+                        else
+                        {
+                            ChoosedStorage.listFile();
+                            Console.WriteLine();
+                            MsConsoleLogger.UserInput("Give me the file which you want to delete: ");
+                            string fileYouWantToRemove = Console.ReadLine();
+                            ChoosedStorage.Remove(fileYouWantToRemove);
+                        }
+                    }
+                    else if (answer == "archive")
+                    {
+                        Storage secondStorage = SelectMounted();
+                        computer.Archive(ChoosedStorage, secondStorage);
+                    }
+                    else if (answer == "format") 
+                    {
+                        ChoosedStorage.Format();
+                        MsConsoleLogger.ConsoleInfo($"The {ChoosedStorage.StoreName} has been formatted");
+
+                    }
                 }
             }
         }
