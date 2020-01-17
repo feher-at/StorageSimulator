@@ -12,7 +12,7 @@ namespace StoreManager.Api
         {
             get
             {
-                double freecap = this.maxCapacity;
+                double freecap = this.MaxCapacity;
                 foreach (File element in this.fileList)
                 {
                     freecap -= element.FileSize;
@@ -38,6 +38,12 @@ namespace StoreManager.Api
         }
         public Hdd(string Id, int MaxCapacity, string StoreName) : base(Id, MaxCapacity, StoreName)
         {
+        }
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"Id = {Id} Max capacity = {MaxCapacity}GB Name = {StoreName} Type = Hdd");
+            return sb.ToString();
         }
     }
 }

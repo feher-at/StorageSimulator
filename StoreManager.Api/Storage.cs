@@ -11,7 +11,7 @@ namespace StoreManager.Api
         public string Id { get; protected set; }
         public string StoreName { get; protected set; }
         protected List<File> fileList = new List<File>();
-        public double maxCapacity { get; protected set; }
+        public double MaxCapacity { get; protected set; }
         protected double freeCapacity;
         protected double reservedCapacity;
         public abstract double FreeCapacity { get; }
@@ -31,7 +31,7 @@ namespace StoreManager.Api
 
         {
             this.Id = Id;
-            this.maxCapacity = MaxCapacity;
+            this.MaxCapacity = MaxCapacity;
             this.StoreName = StoreName;
         }
 

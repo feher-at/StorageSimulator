@@ -13,7 +13,7 @@ namespace StoreManager.Api
         {
             get
             {
-                double freecap = this.maxCapacity;
+                double freecap = this.MaxCapacity;
                 foreach (File element in this.fileList)
                 {
                     freecap -= element.FileSize;
@@ -40,7 +40,7 @@ namespace StoreManager.Api
         {
             this.Id = Id;
             this.StoreName = name;
-            this.maxCapacity = 1700;
+            this.MaxCapacity = 1700;
             this.WriteDefense = false;
         }
 
@@ -81,6 +81,12 @@ namespace StoreManager.Api
             {
                 base.Remove(fileName);
             }
+        }
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"Id = {Id} Max capacity = {MaxCapacity}Kb Name = {StoreName} Type = Floppy");
+            return sb.ToString();
         }
     }
 }

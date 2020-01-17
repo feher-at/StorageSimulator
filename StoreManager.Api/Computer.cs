@@ -15,11 +15,11 @@ namespace StoreManager.Api
         }
 
 
-        public void PutOn(string storeName, List<Storage> storageList)
+        public void PutOn(string Id, List<Storage> storageList)
         {
             for (int i = 0; i < storageList.Count; i++)
             {
-                if (storageList[i].StoreName == storeName)
+                if (storageList[i].Id == Id)
                 {
 
                     Storages.Add(storageList[i]);
@@ -27,7 +27,7 @@ namespace StoreManager.Api
                     break;
                 }
 
-                else if (storageList[i].StoreName != storeName && i == storageList.Count() - 1)
+                else if (storageList[i].Id != Id && i == storageList.Count() - 1)
                 {
                     throw new Exception("There is no such store");
                 }
@@ -37,14 +37,14 @@ namespace StoreManager.Api
         public void AllCapacity()
         {
             foreach (Storage element in Storages)
-                Console.WriteLine($"the {element.StoreName} max capacity is : {element.maxCapacity}");
+                Console.WriteLine($"the {element.StoreName} max capacity is : {element.MaxCapacity}");
         }
         public void AllFreeCapacity()
         {
             foreach (Storage element in Storages)
             {
 
-                Console.WriteLine($"the {element.StoreName} free capacity is : {element.maxCapacity} / {element.FreeCapacity}");
+                Console.WriteLine($"the {element.StoreName} free capacity is : {element.MaxCapacity} / {element.FreeCapacity}");
             }
         }
         public void AllReservedCapacity()
@@ -53,7 +53,7 @@ namespace StoreManager.Api
             {
 
 
-                Console.WriteLine($"the {element.StoreName} reserved capacity is : {element.maxCapacity} / {element.ReservedCapacity}");
+                Console.WriteLine($"the {element.StoreName} reserved capacity is : {element.MaxCapacity} / {element.ReservedCapacity}");
             }
         }
         public void Archive(Storage storage1,Storage storage2)

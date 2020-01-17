@@ -21,6 +21,11 @@ namespace StoreManager.Api
             }
         }
 
-
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"Id = {Id} Max capacity = {MaxCapacity:F1}GB Name = {StoreName} Type = Dvd-rw");
+            return sb.ToString();
+        }
     }
 }
