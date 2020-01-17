@@ -121,11 +121,11 @@ namespace StoreManager.Api
                     {
                         if (i == list.Count() - 1 && list[i].GetFileList().Count == 0)
                         {
-                            outputFile.Write($"[storage] = {list[i].Id},{list[i].maxCapacity},{list[i].StoreName}");
+                            outputFile.Write($"[Hdd] = {list[i].Id},{list[i].maxCapacity},{list[i].StoreName}");
                         }
                         else if (i == list.Count() - 1 && list[i].GetFileList().Count > 0)
                         {
-                            outputFile.WriteLine($"[storage] = {list[i].Id},{list[i].maxCapacity},{list[i].StoreName}");
+                            outputFile.WriteLine($"[Hdd] = {list[i].Id},{list[i].maxCapacity},{list[i].StoreName}");
 
                             for (int index = 0; i < list[i].GetFileList().Count; i++)
                             {
@@ -139,7 +139,7 @@ namespace StoreManager.Api
 
                         else
                         {
-                            outputFile.WriteLine($"[storage] = {list[i].Id},{list[i].maxCapacity},{list[i].StoreName}");
+                            outputFile.WriteLine($"[Hdd] = {list[i].Id},{list[i].maxCapacity},{list[i].StoreName}");
                             if (list[i].GetFileList().Count > 0)
                             {
                                 foreach (File element in list[i].GetFileList())

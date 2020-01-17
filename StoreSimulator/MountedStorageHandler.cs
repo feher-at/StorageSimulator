@@ -109,11 +109,53 @@ namespace StoreSimulator
                         Storage secondStorage = SelectMounted();
                         computer.Archive(ChoosedStorage, secondStorage);
                     }
-                    else if (answer == "format") 
+                    else if (answer == "format")
                     {
                         ChoosedStorage.Format();
                         MsConsoleLogger.ConsoleInfo($"The {ChoosedStorage.StoreName} has been formatted");
 
+                    }
+                    else if (answer == "setdefense" || answer == "set defense")
+                    {
+                        if (ChoosedStorage is DvD_RW || ChoosedStorage is DVD)
+                        {
+                            DVD dvd = (DVD)ChoosedStorage;
+                            dvd.Block();
+                            MsConsoleLogger.ConsoleInfo("The dvd's write defense has been set");
+                        }
+                        else if (ChoosedStorage is Floppy)
+                        {
+                            Floppy floppy = (Floppy)ChoosedStorage;
+                            floppy.TurnOnWriteDefense();
+                            MsConsoleLogger.ConsoleInfo("The floppy's write defense has been set");
+                        }
+                        else if (!(ChoosedStorage is Floppy) && !(ChoosedStorage is DVD) && !(ChoosedStorage is DvD_RW))
+                        {
+                            throw new Exception("To this storage has no write defense ");
+                        }
+                    }
+                    else if (answer == "open")
+                    {
+                        if (ChoosedStorage is DvD_RW)
+                        {
+                            DvD_RW dvd_rw = (DvD_RW)ChoosedStorage;
+                            dvd_rw.Open();
+                            MsConsoleLogger.ConsoleInfo("You can write again on this storage,all saved file what was on this storage has been removed");
+                        }
+                        else if(!(ChoosedStorage is DvD_RW))
+                        {
+                            throw new Exception("This is not a dvd_rw storage please select another mounted storage,wich type is dvd_rw");
+                        }
+                    }
+                    else if(answer == "exit")
+                    {
+                        MsConsoleLogger.ConsoleInfo("Go back to the storage menu");
+                        Console.WriteLine();
+                        break;
+                    }
+                    else
+                    {
+                        throw new Exception("Invalid argument");
                     }
                 }
             }
