@@ -36,5 +36,14 @@ namespace StoreSimulator
             Console.WriteLine(" " + Info);
 
         }
+
+        public void Warning(string warninginfo)
+        {
+            string warning = "WARNING";
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write(warning);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine(" " + warninginfo);
+        }
     }
 }

@@ -21,13 +21,13 @@ namespace StoreSimulator
         
         private void MountedMenuList()
         {
-            string[] MountMenu = new string[] { "ADDFILE : Add file to a storage",
-                                                "REMOVE :  Remove a file from the storage",
-                                                "ARCHIVE : Copy all the files from one storage to another storage",
-                                                "FORMAT : Format the storage",
+            string[] MountMenu = new string[] { "ADDFILE    : Add file to a storage",
+                                                "REMOVE     : Remove a file from the storage",
+                                                "ARCHIVE    : Copy all the files from one storage to another storage",
+                                                "FORMAT     : Format the storage",
                                                 "SETDEFENSE : Set the write defense on the storage(Floppy,Dvd,Dvd-rw)",
-                                                "OPEN : Open the write defense on the given storage(Dvd-rw)",
-                                                "EXIT : Go back to the Storage menu",};
+                                                "OPEN       : Open the write defense on the given storage(Dvd-rw)",
+                                                "EXIT       : Go back to the Storage menu"};
             foreach(string menuPoint in MountMenu)
             {
                 Console.WriteLine(menuPoint);

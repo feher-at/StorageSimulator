@@ -16,6 +16,7 @@ namespace StoreSimulator
         {
             StorageHandler sh = new StorageHandler(cl);
             sh.StorageMenu();
+
         }
     }
 }

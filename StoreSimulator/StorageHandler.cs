@@ -18,16 +18,16 @@ namespace StoreSimulator
             ShConsole = consoleLogger;
         }
 
-        private void ReadfromFile(string fileName,List<Storage> givenStorageList)
+        private void ReadfromFile(string fileName, List<Storage> givenStorageList)
         {
-            ReadStorages(FileHandling.ReadFromFile(fileName),givenStorageList);
+            ReadStorages(FileHandling.ReadFromFile(fileName), givenStorageList);
         }
-        private void WriteToTheFile(List<Storage> storages,string filename)
+        private void WriteToTheFile(List<Storage> storages, string filename)
         {
             FileHandling.WriteToStoreFile(storages, filename);
         }
 
-        private void ReadStorages(string[] Storages,List<Storage> givenStorageList)
+        private void ReadStorages(string[] Storages, List<Storage> givenStorageList)
         {
             List<Storage> TransitionStorage = new List<Storage>();
             for (int i = 0; i < Storages.Count(); i++)
@@ -124,17 +124,37 @@ namespace StoreSimulator
                                                       "ADDMOUNT   : Mount a storage",
                                                       "USEMOUNT   : Use a selected mount(it bring in a sub menu)",
                                                       "ADDSTORE   : Make a new storage",
-                                                      "DELETESTORE: Delete a existing storage",
+                                                      "DELETESTORE: Delete an existing storage",
                                                       "REMOVEMOUNT: Remove a mount from the mounted storages and put back to unmounted storage list",
                                                       "MODIFYMOUNT: Modify the selected mounted storage's id or name or both",
                                                       "MODIFYSTORE: Modify the selected store id or name or both(if the store is empty)",
                                                       "SAVE       : Save all the storages and it's data",
                                                       "EXIT       : Exit of the program",};
-            foreach(string menu in storageMenuList)
+            foreach (string menu in storageMenuList)
             {
                 Console.WriteLine(menu);
             }
             Console.WriteLine();
+        }
+        private string IdGenerator()
+        {
+            Random random = new Random();
+            string id = "";
+            string letters = "abcdefghijklmnopqrstuvwxyz";
+            string specialCharachters = "$ß#&";
+            string numbers = "1234567890";
+            for(int index = 0; index < 2; index++ )
+            {
+                int randomIndex = random.Next(specialCharachters.Count());
+                id += specialCharachters[randomIndex];
+                randomIndex = random.Next(letters.Count());
+                id += char.ToUpper(letters[randomIndex]);
+                randomIndex = random.Next(letters.Count());
+                id += letters[randomIndex];
+                randomIndex = random.Next(numbers.Count());
+                id += numbers[randomIndex];
+            }
+            return id;
         }
         public void StorageMenu()
         {
@@ -151,48 +171,175 @@ namespace StoreSimulator
                 StorageMenuList();
                 ShConsole.UserInput("Choose a menu: ");
                 string answer = Console.ReadLine().ToLower();
-                if(answer == "listmounts" || answer == "list mounts")
+                if (answer == "listmounts" || answer == "list mounts")
                 {
                     if (computer.GetStorages().Count == 0)
                     {
-                        ShConsole.Error("Mount at least one storage first");
+                        ShConsole.Warning("Mount at least one storage first");
                     }
                     else
                     {
                         ListInfoAStorageList(computer.GetStorages());
                     }
                 }
-                else if(answer == "liststores" || answer == "list stores")
+                else if (answer == "liststores" || answer == "list stores")
                 {
                     if (storages.Count == 0)
                     {
-                        ShConsole.Error("Make at least one storage first");
+                        ShConsole.Warning("Make at least one storage first");
                     }
                     else
                     {
                         ListInfoAStorageList(storages);
                     }
                 }
-                else if(answer == "addmount" ||answer == "add mount")
+                else if (answer == "addmount" || answer == "add mount")
                 {
                     if (storages.Count == 0)
                     {
-                        ShConsole.Error("Make one storage at least!");
+                        ShConsole.Warning("Make one storage at least!");
                     }
                     else
                     {
                         ShConsole.UserInput("Give me the storage Id,which you want put on the computer: ");
                         string addAnswer = Console.ReadLine();
                         computer.PutOn(addAnswer, storages);
-                        
+
                     }
                     Console.WriteLine();
                 }
-                else if(answer == "usemount" || answer == "use mount")
+                else if (answer == "usemount" || answer == "use mount")
                 {
                     MountedStorageHandler msh = new MountedStorageHandler(ShConsole, computer);
                     msh.MountedMenu();
                 }
+                else if (answer == "addstore" || answer == "add store")
+                {
+
+                    Console.WriteLine("What storage you want to make(Hdd,Dvd,Dvd_rw,Floppy)");
+                    string newstorage = Console.ReadLine();
+                    string id = IdGenerator();
+                    if (newstorage == "Hdd")
+                    {
+                        string[] storageParams = new string[] { "Max capacity", "Name" };
+                        List<string> sp = new List<string>();
+                        foreach (string param in storageParams)
+                        {
+                            Console.WriteLine($"Give me  {param}: ");
+                            sp.Add(Console.ReadLine());
+                        }
+                        Storage storage = new Hdd(id, Convert.ToInt32(sp[0]), sp[1]);
+
+                        storages.Add(storage);
+                    }
+                    else if (newstorage == "Dvd" || newstorage == "Floppy" || newstorage == "Dvd_rw")
+                    {
+                        Console.WriteLine($"Give me the storage Name : ");
+                        string name = Console.ReadLine();
+                        if (newstorage == "Dvd")
+                        {
+                            Storage storage = new DVD(id, name);
+                            storages.Add(storage);
+                        }
+                        else if (newstorage == "Floppy")
+                        {
+                            Storage storage = new Floppy(id, name);
+                            storages.Add(storage);
+                        }
+                        else if (newstorage == "Dvd_rw")
+                        {
+                            Storage storage = new DvD_RW(id, name);
+                            storages.Add(storage);
+                        }
+                    }
+                    Console.WriteLine();
+
+                }
+                else if (answer == "deletestore" || answer == "delete store")
+                {
+                    if(storages.Count == 0)
+                    {
+                        ShConsole.Warning("Create a storage first please");
+                    }
+                    else
+                    {
+                        ShConsole.UserInput("Give me the storage Id you want to delete");
+                        string deletingStoreId = Console.ReadLine();
+                        for (int i = 0; i < storages.Count; i++)
+                        {
+
+                            if (storages[i].Id == deletingStoreId)
+                            {
+                                ShConsole.UserInput($"Are you sure you want to delete this storage {storages[i].StoreName}?");
+                                string deleteAnswer = Console.ReadLine().ToLower();
+                                if (deleteAnswer == "yes" || deleteAnswer == "y")
+                                {
+                                    
+                                    ShConsole.ConsoleInfo($"the {storages[i].StoreName} has been deleted");
+                                    storages.Remove(storages[i]);
+                                }
+                                else if(deleteAnswer == "no" ||deleteAnswer == "n")
+                                {
+                                    ShConsole.ConsoleInfo("the deleting process has been declined");
+                                }
+                                else
+                                {
+                                    ShConsole.Warning("invalid input");
+                                }
+                                break;
+                            }
+                            else if (storages[i].Id != deletingStoreId && i == storages.Count() - 1)
+                            {
+                                throw new Exception("There is no such store");
+                            }
+                        }
+                        Console.WriteLine();
+                    }
+                }
+                else if (answer == "remove mount" || answer == "removemount")
+                {
+                    if (computer.GetStorages().Count == 0)
+                    {
+                        ShConsole.Warning("There is no mounted storage");
+                    }
+                    else
+                    {
+                        ShConsole.UserInput("Give me the storage Id you want to remove");
+                        string removingStoreId = Console.ReadLine();
+                        for (int i = 0; i < computer.GetStorages().Count; i++)
+                        {
+
+                            if (storages[i].Id == removingStoreId)
+                            {
+                                ShConsole.UserInput($"Are you sure you want to remove this storage {storages[i].StoreName}?");
+                                string removeAnswer = Console.ReadLine().ToLower();
+                                if (removeAnswer == "yes" || removeAnswer == "y")
+                                {
+
+                                    ShConsole.ConsoleInfo($"the {computer.GetStorages()[i].StoreName} has been removed");
+                                    computer.GetStorages().Remove(computer.GetStorages()[i]);
+                                    storages.Add(computer.GetStorages()[i]);
+                                }
+                                else if (removeAnswer == "no" || removeAnswer == "n")
+                                {
+                                    ShConsole.ConsoleInfo("the removing process has been declined");
+                                }
+                                else
+                                {
+                                    ShConsole.Warning("invalid input");
+                                }
+                                break;
+                            }
+                            else if (computer.GetStorages()[i].Id != removingStoreId && i == computer.GetStorages().Count() - 1)
+                            {
+                                throw new Exception("There is no such store");
+                            }
+                        }
+                        
+                    }
+                    Console.WriteLine();
+                }
+
             }
         }
     }

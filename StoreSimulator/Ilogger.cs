@@ -14,6 +14,7 @@ namespace StoreSimulator
 
         void ConsoleInfo(string message);
 
+        void Warning(string message);
 
     }
 }
