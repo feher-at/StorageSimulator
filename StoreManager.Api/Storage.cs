@@ -9,7 +9,7 @@ namespace StoreManager.Api
     public abstract class Storage
     {
         public string Id { get; protected set; }
-        public string StoreName { get; protected set; }
+        public string StoreName { get; set; }
         protected List<File> fileList = new List<File>();
         public double MaxCapacity { get; protected set; }
         protected double freeCapacity;
@@ -34,7 +34,6 @@ namespace StoreManager.Api
             this.MaxCapacity = MaxCapacity;
             this.StoreName = StoreName;
         }
-
         public virtual void Format()
         {
             this.fileList = new List<File>();
@@ -107,6 +106,19 @@ namespace StoreManager.Api
         public List<File> FileListToComputer()
         {
             return this.fileList;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (!(obj is Storage))
+            { 
+                return false;
+            }
+
+            return this.Id == ((Storage)obj).Id && this.StoreName == ((Storage)obj).StoreName;
         }
 
 

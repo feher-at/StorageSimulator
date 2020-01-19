@@ -25,7 +25,7 @@ namespace StoreSimulator
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write(input);
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine(" " + userinput);
+            Console.Write(" " + userinput);
         }
         public void ConsoleInfo(string Info)
         {

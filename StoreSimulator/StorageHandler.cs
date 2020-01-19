@@ -126,10 +126,10 @@ namespace StoreSimulator
                                                       "ADDSTORE   : Make a new storage",
                                                       "DELETESTORE: Delete an existing storage",
                                                       "REMOVEMOUNT: Remove a mount from the mounted storages and put back to unmounted storage list",
-                                                      "MODIFYMOUNT: Modify the selected mounted storage's id or name or both",
-                                                      "MODIFYSTORE: Modify the selected store id or name or both(if the store is empty)",
+                                                      "MODIFYMOUNT: Modify the selected mounted storage's name",
+                                                      "MODIFYSTORE: Modify the selected store name(if the store is empty)",
                                                       "SAVE       : Save all the storages and it's data",
-                                                      "EXIT       : Exit of the program",};
+                                                      "EXIT       : Exit of the program"};
             foreach (string menu in storageMenuList)
             {
                 Console.WriteLine(menu);
@@ -205,6 +205,7 @@ namespace StoreSimulator
                         string addAnswer = Console.ReadLine();
                         computer.PutOn(addAnswer, storages);
 
+
                     }
                     Console.WriteLine();
                 }
@@ -225,7 +226,7 @@ namespace StoreSimulator
                         List<string> sp = new List<string>();
                         foreach (string param in storageParams)
                         {
-                            Console.WriteLine($"Give me  {param}: ");
+                            ShConsole.UserInput($"Give me  {param}: ");
                             sp.Add(Console.ReadLine());
                         }
                         Storage storage = new Hdd(id, Convert.ToInt32(sp[0]), sp[1]);
@@ -234,7 +235,7 @@ namespace StoreSimulator
                     }
                     else if (newstorage == "Dvd" || newstorage == "Floppy" || newstorage == "Dvd_rw")
                     {
-                        Console.WriteLine($"Give me the storage Name : ");
+                        ShConsole.UserInput($"Give me the storage Name : ");
                         string name = Console.ReadLine();
                         if (newstorage == "Dvd")
                         {
@@ -257,28 +258,28 @@ namespace StoreSimulator
                 }
                 else if (answer == "deletestore" || answer == "delete store")
                 {
-                    if(storages.Count == 0)
+                    if (storages.Count == 0)
                     {
                         ShConsole.Warning("Create a storage first please");
                     }
                     else
                     {
-                        ShConsole.UserInput("Give me the storage Id you want to delete");
+                        ShConsole.UserInput("Give me the storage Id you want to delete: ");
                         string deletingStoreId = Console.ReadLine();
                         for (int i = 0; i < storages.Count; i++)
                         {
 
                             if (storages[i].Id == deletingStoreId)
                             {
-                                ShConsole.UserInput($"Are you sure you want to delete this storage {storages[i].StoreName}?");
+                                ShConsole.UserInput($"Are you sure you want to delete this storage {storages[i].StoreName}?(yes/no): ");
                                 string deleteAnswer = Console.ReadLine().ToLower();
                                 if (deleteAnswer == "yes" || deleteAnswer == "y")
                                 {
-                                    
+
                                     ShConsole.ConsoleInfo($"the {storages[i].StoreName} has been deleted");
                                     storages.Remove(storages[i]);
                                 }
-                                else if(deleteAnswer == "no" ||deleteAnswer == "n")
+                                else if (deleteAnswer == "no" || deleteAnswer == "n")
                                 {
                                     ShConsole.ConsoleInfo("the deleting process has been declined");
                                 }
@@ -304,18 +305,16 @@ namespace StoreSimulator
                     }
                     else
                     {
-                        ShConsole.UserInput("Give me the storage Id you want to remove");
+                        ShConsole.UserInput("Give me the storage Id you want to remove: ");
                         string removingStoreId = Console.ReadLine();
                         for (int i = 0; i < computer.GetStorages().Count; i++)
                         {
-
-                            if (storages[i].Id == removingStoreId)
+                            if (computer.GetStorages()[i].Id == removingStoreId)
                             {
-                                ShConsole.UserInput($"Are you sure you want to remove this storage {storages[i].StoreName}?");
+                                ShConsole.UserInput($"Are you sure you want to remove this storage {computer.GetStorages()[i].StoreName}?(yes/no) : ");
                                 string removeAnswer = Console.ReadLine().ToLower();
                                 if (removeAnswer == "yes" || removeAnswer == "y")
                                 {
-
                                     ShConsole.ConsoleInfo($"the {computer.GetStorages()[i].StoreName} has been removed");
                                     computer.GetStorages().Remove(computer.GetStorages()[i]);
                                     storages.Add(computer.GetStorages()[i]);
@@ -335,9 +334,127 @@ namespace StoreSimulator
                                 throw new Exception("There is no such store");
                             }
                         }
-                        
                     }
                     Console.WriteLine();
+                }
+                else if (answer == "modify mount" || answer == "modifymount")
+                {
+                    if (computer.GetStorages().Count == 0)
+                    {
+                        ShConsole.Warning("There is no mounted storage");
+                    }
+                    else
+                    {
+                        ShConsole.UserInput("Give me the mounted storage Id you want to modify");
+                        string modifyingMountedStoreId = Console.ReadLine();
+                        for (int i = 0; i < computer.GetStorages().Count; i++)
+                        {
+                            if (computer.GetStorages()[i].Id == modifyingMountedStoreId)
+                            {
+                                ShConsole.UserInput($"Are you sure You want to modify the storage NAME?(yes/no): ");
+                                string removeAnswer = Console.ReadLine().ToLower();
+                                if (removeAnswer == "yes" || removeAnswer == "y")
+                                {
+                                    ShConsole.UserInput("Give me the new store name: ");
+                                    string newName = Console.ReadLine();
+                                    computer.GetStorages()[i].StoreName = newName;
+
+                                }
+                                else if (removeAnswer == "no" || removeAnswer == "n")
+                                {
+                                    ShConsole.ConsoleInfo("the modifying process has been declined");
+                                }
+                                else
+                                {
+                                    ShConsole.Warning("invalid input");
+                                }
+                                break;
+                            }
+                            else if (computer.GetStorages()[i].Id != modifyingMountedStoreId && i == computer.GetStorages().Count() - 1)
+                            {
+                                throw new Exception("There is no such mounted store");
+                            }
+                        }
+                    }
+                }
+                else if (answer == "modify store" || answer == "modifystore")
+                {
+                    if (storages.Count == 0)
+                    {
+                        ShConsole.Warning("There is no unmounted storage");
+                    }
+                    else
+                    {
+                        ShConsole.UserInput("Give me the storage Id you want to modify: ");
+                        string modifyingStoreId = Console.ReadLine();
+                        for (int i = 0; i < storages.Count; i++)
+                        {
+                            if (storages[i].Id == modifyingStoreId)
+                            {
+                                if (storages[i].GetFileList().Count == 0)
+                                {
+                                    ShConsole.UserInput($"Are you sure You want to modify the storage NAME?(yes/no): ");
+                                    string removeAnswer = Console.ReadLine().ToLower();
+                                    if (removeAnswer == "yes" || removeAnswer == "y")
+                                    {
+                                        ShConsole.UserInput("Give me the new store name: ");
+                                        string newName = Console.ReadLine();
+                                        storages[i].StoreName = newName;
+
+                                    }
+                                    else if (removeAnswer == "no" || removeAnswer == "n")
+                                    {
+                                        ShConsole.ConsoleInfo("the modifying process has been declined");
+                                    }
+                                    else
+                                    {
+                                        ShConsole.Warning("invalid input");
+                                    }
+                                }
+                                else if (storages[i].GetFileList().Count > 0)
+                                {
+                                    ShConsole.Warning("The store is not empty,you can't modify the name");
+                                }
+                                break;
+                            }
+                            else if (storages[i].Id != modifyingStoreId && i == computer.GetStorages().Count() - 1)
+                            {
+                                throw new Exception("There is no such store");
+                            }
+                        }
+                        Console.WriteLine();
+                    }
+                }
+                else if (answer == "save")
+                {
+                    if (storages.Count > 0)
+                    {
+                        FileHandling.WriteToStoreFile(storages, ".. / .. / AllStores.txt");
+                        ShConsole.ConsoleInfo("the storage data has been saved");
+                    }
+                    else if(storages.Count == 0)
+                    {
+                        ShConsole.Warning("the AllStores.Txt was not created because the storage is empty");
+                    }
+                    if (computer.GetStorages().Count > 0)
+                    {
+                        FileHandling.WriteToStoreFile(computer.GetStorages(), "../../MountedStores.txt");
+                        ShConsole.ConsoleInfo("the mounted storage data has been saved");
+                    }
+                    else if (computer.GetStorages().Count == 0)
+                    {
+                        ShConsole.Warning("the MountedStores.txt was not created because the mounted storage is empty");
+                    }
+                    
+                }
+                else if (answer == "exit")
+                {
+                    ShConsole.ConsoleInfo("Good bye");
+                    break;
+                }
+                else
+                {
+                    throw new Exception("invalid argument");
                 }
 
             }

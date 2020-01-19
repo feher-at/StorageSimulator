@@ -23,6 +23,7 @@ namespace StoreManager.Api
                 {
 
                     Storages.Add(storageList[i]);
+                    storageList.Remove(storageList[i]);
 
                     break;
                 }

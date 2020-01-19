@@ -14,8 +14,16 @@ namespace StoreSimulator
         static ConsoleLogger cl = new ConsoleLogger();
         static void Main(string[] args)
         {
-            StorageHandler sh = new StorageHandler(cl);
-            sh.StorageMenu();
+            try
+            {
+
+                StorageHandler sh = new StorageHandler(cl);
+                sh.StorageMenu();
+            }
+            catch(Exception ex)
+            {
+                cl.Error(ex.Message);
+            }
 
         }
     }

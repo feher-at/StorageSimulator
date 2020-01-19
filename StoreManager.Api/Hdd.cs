@@ -45,5 +45,6 @@ namespace StoreManager.Api
             sb.Append($"Id = {Id} Max capacity = {MaxCapacity}GB Name = {StoreName} Type = Hdd");
             return sb.ToString();
         }
+        
     }
 }
