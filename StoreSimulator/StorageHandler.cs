@@ -160,7 +160,7 @@ namespace StoreSimulator
         {
             if(System.IO.File.Exists("../../AllStores.txt") && new FileInfo("../../AllStores.txt").Length > 0)
             {
-                ReadfromFile("../../AllStores", storages);
+                ReadfromFile("../../AllStores.txt", storages);
             }
             if(System.IO.File.Exists("../../MountedStores.txt") && new FileInfo("../../MountedStores.txt").Length > 0)
             {
@@ -427,25 +427,11 @@ namespace StoreSimulator
                 }
                 else if (answer == "save")
                 {
-                    if (storages.Count > 0)
-                    {
-                        FileHandling.WriteToStoreFile(storages, ".. / .. / AllStores.txt");
+                    
+                        FileHandling.WriteToStoreFile(storages, "../../AllStores.txt");
                         ShConsole.ConsoleInfo("the storage data has been saved");
-                    }
-                    else if(storages.Count == 0)
-                    {
-                        ShConsole.Warning("the AllStores.Txt was not created because the storage is empty");
-                    }
-                    if (computer.GetStorages().Count > 0)
-                    {
                         FileHandling.WriteToStoreFile(computer.GetStorages(), "../../MountedStores.txt");
                         ShConsole.ConsoleInfo("the mounted storage data has been saved");
-                    }
-                    else if (computer.GetStorages().Count == 0)
-                    {
-                        ShConsole.Warning("the MountedStores.txt was not created because the mounted storage is empty");
-                    }
-                    
                 }
                 else if (answer == "exit")
                 {

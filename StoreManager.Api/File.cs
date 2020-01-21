@@ -8,9 +8,9 @@ namespace StoreManager.Api
     {
         public string FileName { get; set; }
         public double FileSize { get; }
-        private bool OnlyRead { get; set; }
-        private string System { get; set; }
-        private bool Hidden { get; set; }
+        public bool OnlyRead { get; private set; }
+        public string System { get; private set; }
+        public bool Hidden { get; private set; }
 
 
 

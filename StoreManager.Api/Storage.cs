@@ -97,16 +97,6 @@ namespace StoreManager.Api
 
             }
         }
-        public void listFile()
-        {
-            foreach (File element in fileList)
-                Console.WriteLine(element.ToString());
-        }
-
-        public List<File> FileListToComputer()
-        {
-            return this.fileList;
-        }
         public override bool Equals(object obj)
         {
             if (obj == null)

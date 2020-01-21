@@ -22,6 +22,8 @@ namespace StoreSimulator
         private void MountedMenuList()
         {
             string[] MountMenu = new string[] { "ADDFILE    : Add file to a storage",
+                                                "CHECKCAP   : List the storage max capacity free capacity and the reserved capacity",
+                                                "LISTFILE   : List the storage's file(s)",
                                                 "REMOVE     : Remove a file from the storage",
                                                 "ARCHIVE    : Copy all the files from one storage to another storage",
                                                 "FORMAT     : Format the storage",
@@ -33,6 +35,16 @@ namespace StoreSimulator
                 Console.WriteLine(menuPoint);
             }
             Console.WriteLine();
+        }
+        private void ListFile(Storage storage)
+        {
+            foreach(File element in storage.GetFileList())
+            {
+                MsConsoleLogger.ConsoleInfo($"name = {element.FileName} filesize = {element.FileSize:f2}Mb " +
+                                            $" OnlyRead = {element.OnlyRead} system = {element.System} " +
+                                            $" Hidden = {element.Hidden}");
+
+            }
         }
 
         private Storage SelectMounted()
@@ -91,13 +103,33 @@ namespace StoreSimulator
                         ChoosedStorage.AddFile(fp[0], Convert.ToInt32(fp[1]), Convert.ToBoolean(fp[2]), fp[3], Convert.ToBoolean(fp[4]));
 
                     }
+                    else if (answer == "check cap" ||answer == "checkcap")
+                    {
+                        if (ChoosedStorage is DVD || ChoosedStorage is DvD_RW || ChoosedStorage is Hdd)
+                        {
+                            MsConsoleLogger.ConsoleInfo($"max capacity = {ChoosedStorage.MaxCapacity:F1}GB" +
+                                                        $" free capacity = {ChoosedStorage.FreeCapacity:F1}GB" +
+                                                        $" reserved capacity = {ChoosedStorage.ReservedCapacity:F1}GB");
+                        }
+                        else if (ChoosedStorage is Floppy)
+                        {
+                            MsConsoleLogger.ConsoleInfo($"max capacity = {ChoosedStorage.MaxCapacity:F1}Kb" +
+                                                       $" free capacity = {ChoosedStorage.FreeCapacity:F1}Kb" +
+                                                       $" reserved capacity = {ChoosedStorage.ReservedCapacity:F1}Kb");
+                        }
+                    
+                    }
+                    else if (answer == "list file" || answer == "listfile")
+                    {
+                        ListFile(ChoosedStorage);
+                    }
                     else if (answer == "remove")
                     {
                         if (ChoosedStorage.GetFileList().Count == 0)
                         { MsConsoleLogger.Error("The storage is empty"); }
                         else
                         {
-                            ChoosedStorage.listFile();
+                            ListFile(ChoosedStorage);
                             Console.WriteLine();
                             MsConsoleLogger.UserInput("Give me the file which you want to delete: ");
                             string fileYouWantToRemove = Console.ReadLine();

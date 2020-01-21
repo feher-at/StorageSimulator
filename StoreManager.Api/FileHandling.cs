@@ -33,7 +33,10 @@ namespace StoreManager.Api
                             for (int index = 0; i < list[i].GetFileList().Count; i++)
                             {
                                 if (index == list[i].GetFileList().Count - 1)
+                                {
                                     outputFile.Write(list[i].GetFileList()[index].ToString());
+                                    break;
+                                }
                                 else
                                     outputFile.WriteLine(list[i].GetFileList()[index].ToString());
 
@@ -65,7 +68,10 @@ namespace StoreManager.Api
                             for (int index = 0; i < list[i].GetFileList().Count; i++)
                             {
                                 if (index == list[i].GetFileList().Count - 1)
+                                {
                                     outputFile.Write(list[i].GetFileList()[index].ToString());
+                                    break;
+                                }
                                 else
                                     outputFile.WriteLine(list[i].GetFileList()[index].ToString());
 
@@ -97,7 +103,10 @@ namespace StoreManager.Api
                             for (int index = 0; i < list[i].GetFileList().Count; i++)
                             {
                                 if (index == list[i].GetFileList().Count - 1)
+                                {
                                     outputFile.Write(list[i].GetFileList()[index].ToString());
+                                    break;
+                                }
                                 else
                                     outputFile.WriteLine(list[i].GetFileList()[index].ToString());
 
@@ -130,7 +139,10 @@ namespace StoreManager.Api
                             for (int index = 0; i < list[i].GetFileList().Count; i++)
                             {
                                 if (index == list[i].GetFileList().Count - 1)
+                                {
                                     outputFile.Write(list[i].GetFileList()[index].ToString());
+                                    break;
+                                }
                                 else
                                     outputFile.WriteLine(list[i].GetFileList()[index].ToString());
 
