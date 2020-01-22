@@ -20,7 +20,7 @@ namespace StoreManager.Api
                 double freecap = this.MaxCapacity;
                 foreach (File element in this.fileList)
                 {
-                    freecap -= element.FileSize;
+                    freecap -= element.FileSize/ 1048576;
                 }
                 this.freeCapacity = freecap;
                 return this.freeCapacity;
@@ -33,7 +33,7 @@ namespace StoreManager.Api
                 double reservedCap = 0;
                 foreach (File element in this.fileList)
                 {
-                    reservedCap += element.FileSize;
+                    reservedCap += element.FileSize / 1048576;
 
                 }
                 this.reservedCapacity = reservedCap;
@@ -72,8 +72,23 @@ namespace StoreManager.Api
             {
                 throw new Exception("The DvD has been blocked sorry");
             }
-            double DvdFileSize = fileSize / 1048576;
-            base.AddFile(fileName, DvdFileSize, onlyRead, system, hidden);
+
+            if (fileList.Count > 0)
+            {
+                foreach (File element in fileList)
+                {
+                    if (element.FileName == fileName)
+                        throw new Exception("This file is already in the file list");
+                }
+            }
+            if (fileSize / 1048576 > this.FreeCapacity)
+                throw new Exception("There is not enough free capacity");
+            else if (fileSize / 1048576 <= this.freeCapacity)
+            {
+                File addfile = new File(fileName, fileSize, onlyRead, system, hidden);
+                fileList.Add(addfile);
+                return;
+            }
 
         }
 
@@ -92,11 +107,7 @@ namespace StoreManager.Api
 
 
         }
-        public new void listFile()
-        {
-            foreach (File element in fileList)
-                Console.WriteLine(element.ToString());
-        }
+        
 
         public override string ToString()
         {

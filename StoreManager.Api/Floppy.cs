@@ -64,9 +64,21 @@ namespace StoreManager.Api
             {
                 throw new Exception("The floppy has write defense");
             }
-            else
+            if (fileList.Count > 0)
             {
-                base.AddFile(fileName, fileSize, onlyRead, system, hidden);
+                foreach (File element in fileList)
+                {
+                    if (element.FileName == fileName)
+                        throw new Exception("This file is already in the file list");
+                }
+            }
+            if (fileSize > this.FreeCapacity)
+                throw new Exception("There is not enough free capacity");
+            else if (fileSize <= this.freeCapacity)
+            {
+                File addfile = new File(fileName, fileSize, onlyRead, system, hidden);
+                fileList.Add(addfile);
+                return;
             }
         }
 

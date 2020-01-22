@@ -40,30 +40,8 @@ namespace StoreManager.Api
 
         }
 
-        public virtual void AddFile(string fileName, double fileSize, bool onlyRead, string system, bool hidden)
-        {
-
-            if (fileList.Count > 0)
-            {
-                foreach (File element in fileList)
-                {
-                    if (element.FileName == fileName)
-                        throw new Exception("This file is already in the file list");
-                }
-            }
-
-
-
-            if (fileSize > this.FreeCapacity)
-                throw new Exception("There is not enough free capacity");
-            else if (fileSize <= this.freeCapacity)
-            {
-                File addfile = new File(fileName, fileSize, onlyRead, system, hidden);
-                fileList.Add(addfile);
-                return;
-            }
-
-        }
+        public abstract void AddFile(string fileName, double fileSize, bool onlyRead, string system, bool hidden);
+        
 
         public string Search(string fileName)
         {

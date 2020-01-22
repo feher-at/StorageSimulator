@@ -24,11 +24,11 @@ namespace StoreManager.Api
                     {
                         if (i == list.Count() - 1 && list[i].GetFileList().Count == 0)
                         {
-                            outputFile.Write($"[Floppy] = {list[i].Id},{list[i].StoreName}");
+                            outputFile.Write($"[Floppy] = {list[i].Id};{list[i].StoreName}");
                         }
                         else if (i == list.Count() - 1 && list[i].GetFileList().Count > 0)
                         {
-                            outputFile.WriteLine($"[Floppy] = {list[i].Id},{list[i].StoreName}");
+                            outputFile.WriteLine($"[Floppy] = {list[i].Id};{list[i].StoreName}");
 
                             for (int index = 0; i < list[i].GetFileList().Count; i++)
                             {
@@ -45,7 +45,7 @@ namespace StoreManager.Api
 
                         else
                         {
-                            outputFile.WriteLine($"[Floppy] = {list[i].Id},{list[i].StoreName}");
+                            outputFile.WriteLine($"[Floppy] = {list[i].Id};{list[i].StoreName}");
                             if (list[i].GetFileList().Count > 0)
                             {
                                 foreach (File element in list[i].GetFileList())
@@ -59,11 +59,11 @@ namespace StoreManager.Api
                     {
                         if (i == list.Count() - 1 && list[i].GetFileList().Count == 0)
                         {
-                            outputFile.Write($"[Dvd_Rw] = {list[i].Id},{list[i].StoreName}");
+                            outputFile.Write($"[Dvd_Rw] = {list[i].Id};{list[i].StoreName}");
                         }
                         else if (i == list.Count() - 1 && list[i].GetFileList().Count > 0)
                         {
-                            outputFile.WriteLine($"[Dvd_Rw] = {list[i].Id},{list[i].StoreName}");
+                            outputFile.WriteLine($"[Dvd_Rw] = {list[i].Id};{list[i].StoreName}");
 
                             for (int index = 0; i < list[i].GetFileList().Count; i++)
                             {
@@ -80,7 +80,7 @@ namespace StoreManager.Api
 
                         else
                         {
-                            outputFile.WriteLine($"[Dvd_Rw] = {list[i].Id},{list[i].StoreName}");
+                            outputFile.WriteLine($"[Dvd_Rw] = {list[i].Id};{list[i].StoreName}");
                             if (list[i].GetFileList().Count > 0)
                             {
                                 foreach (File element in list[i].GetFileList())
@@ -94,11 +94,11 @@ namespace StoreManager.Api
                     {
                         if (i == list.Count() - 1 && list[i].GetFileList().Count == 0)
                         {
-                            outputFile.Write($"[Dvd] = {list[i].Id},{list[i].StoreName}");
+                            outputFile.Write($"[Dvd] = {list[i].Id};{list[i].StoreName}");
                         }
                         else if (i == list.Count() - 1 && list[i].GetFileList().Count > 0)
                         {
-                            outputFile.WriteLine($"[Dvd] = {list[i].Id},{list[i].StoreName}");
+                            outputFile.WriteLine($"[Dvd] = {list[i].Id};{list[i].StoreName}");
 
                             for (int index = 0; i < list[i].GetFileList().Count; i++)
                             {
@@ -115,7 +115,7 @@ namespace StoreManager.Api
 
                         else
                         {
-                            outputFile.WriteLine($"[Dvd] = {list[i].Id},{list[i].StoreName}");
+                            outputFile.WriteLine($"[Dvd] = {list[i].Id};{list[i].StoreName}");
                             if (list[i].GetFileList().Count > 0)
                             {
                                 foreach (File element in list[i].GetFileList())
@@ -130,13 +130,13 @@ namespace StoreManager.Api
                     {
                         if (i == list.Count() - 1 && list[i].GetFileList().Count == 0)
                         {
-                            outputFile.Write($"[Hdd] = {list[i].Id},{list[i].MaxCapacity},{list[i].StoreName}");
+                            outputFile.Write($"[Hdd] = {list[i].Id};{list[i].MaxCapacity};{list[i].StoreName}");
                         }
                         else if (i == list.Count() - 1 && list[i].GetFileList().Count > 0)
                         {
-                            outputFile.WriteLine($"[Hdd] = {list[i].Id},{list[i].MaxCapacity},{list[i].StoreName}");
+                            outputFile.WriteLine($"[Hdd] = {list[i].Id};{list[i].MaxCapacity};{list[i].StoreName}");
 
-                            for (int index = 0; i < list[i].GetFileList().Count; i++)
+                            for (int index = 0; index < list[i].GetFileList().Count; index++)
                             {
                                 if (index == list[i].GetFileList().Count - 1)
                                 {
@@ -151,7 +151,7 @@ namespace StoreManager.Api
 
                         else
                         {
-                            outputFile.WriteLine($"[Hdd] = {list[i].Id},{list[i].MaxCapacity},{list[i].StoreName}");
+                            outputFile.WriteLine($"[Hdd] = {list[i].Id};{list[i].MaxCapacity};{list[i].StoreName}");
                             if (list[i].GetFileList().Count > 0)
                             {
                                 foreach (File element in list[i].GetFileList())

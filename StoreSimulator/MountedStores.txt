@@ -1,3 +1,0 @@
-[Dvd] = &Qs0#Dz7,nem
-[Dvd] = $Dx8ßZi3,ne
-[Floppy] = #Pn1ßXp1,ok

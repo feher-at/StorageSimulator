@@ -38,18 +38,29 @@ namespace StoreSimulator
         }
         private void ListFile(Storage storage)
         {
-            foreach(File element in storage.GetFileList())
+            if (storage is Floppy)
             {
-                MsConsoleLogger.ConsoleInfo($"name = {element.FileName} filesize = {element.FileSize:f2}Mb " +
-                                            $" OnlyRead = {element.OnlyRead} system = {element.System} " +
-                                            $" Hidden = {element.Hidden}");
-
+                foreach (File element in storage.GetFileList())
+                {
+                    MsConsoleLogger.ConsoleInfo($"name = {element.FileName} filesize = {element.FileSize}Kb " +
+                                                $" OnlyRead = {element.OnlyRead} system = {element.System} " +
+                                                $" Hidden = {element.Hidden}");
+                }
+            }
+            else
+            {
+                foreach (File element in storage.GetFileList())
+                {
+                    MsConsoleLogger.ConsoleInfo($"name = {element.FileName} filesize = {element.FileSize/ 1048576 :F1}GB " +
+                                                $" OnlyRead = {element.OnlyRead} system = {element.System} " +
+                                                $" Hidden = {element.Hidden}");
+                }
             }
         }
 
         private Storage SelectMounted()
         {
-            MsConsoleLogger.UserInput("Please choose a mounted storage by ID");
+            MsConsoleLogger.UserInput("Please choose a mounted storage by ID: ");
             string SelectedMountID = Console.ReadLine();
             
             for (int i = 0; i < computer.GetStorages().Count; i++)
@@ -139,7 +150,11 @@ namespace StoreSimulator
                     else if (answer == "archive")
                     {
                         Storage secondStorage = SelectMounted();
-                        computer.Archive(ChoosedStorage, secondStorage);
+                        List<File> mutualFiles = computer.Archive(ChoosedStorage, secondStorage);
+                        foreach(File file in mutualFiles)
+                        {
+                            MsConsoleLogger.ConsoleInfo($"{file.ToString()} is already on the {secondStorage.StoreName} storage ");
+                        }
                     }
                     else if (answer == "format")
                     {

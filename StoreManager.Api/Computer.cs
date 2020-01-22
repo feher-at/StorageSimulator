@@ -57,10 +57,10 @@ namespace StoreManager.Api
                 Console.WriteLine($"the {element.StoreName} reserved capacity is : {element.MaxCapacity} / {element.ReservedCapacity}");
             }
         }
-        public void Archive(Storage storage1,Storage storage2)
+        public List<File> Archive(Storage storage1,Storage storage2)
         {
             Random rnd = new Random();
-
+            List<File> alreadyOnTheStorage = new List<File>();
             string[] AFstring = new string[5];
             if (GetStorages().Count == 1)
             {
@@ -74,23 +74,34 @@ namespace StoreManager.Api
             {
                 foreach(File element in storage1.GetFileList())
                 {
-                    int result = 0;
-                    foreach(File file in storage2.GetFileList())
+                    if (storage2.GetFileList().Count > 0)
                     {
-                        if(element.Equals(file))
+                        int result = 0;
+                        foreach (File file in storage2.GetFileList())
                         {
-                            result++;
-                        }
+                            if (element.Equals(file))
+                            {
+                                alreadyOnTheStorage.Add(element);
+                                result++;
+                            }
 
+                        }
+                        if (result > 0)
+                            continue;
+                        else
+                        {
+                            AFstring = element.ToString().Split(';');
+                            storage2.AddFile(AFstring[0], Convert.ToInt32(AFstring[1]), Convert.ToBoolean(AFstring[2]), AFstring[3], Convert.ToBoolean(AFstring[4]));
+                        }
                     }
-                    if (result > 0)
-                        continue;
                     else
                     {
-                        AFstring = element.ToString().Split(',');
+                        AFstring = element.ToString().Split(';');
                         storage2.AddFile(AFstring[0], Convert.ToInt32(AFstring[1]), Convert.ToBoolean(AFstring[2]), AFstring[3], Convert.ToBoolean(AFstring[4]));
                     }
+                    
                 }
+                return alreadyOnTheStorage;
             }
 
            

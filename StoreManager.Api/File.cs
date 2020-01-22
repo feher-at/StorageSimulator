@@ -25,7 +25,7 @@ namespace StoreManager.Api
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{this.FileName},{this.FileSize},{this.OnlyRead},{this.System},{this.Hidden}");
+            sb.Append($"{this.FileName};{this.FileSize};{this.OnlyRead};{this.System};{this.Hidden}");
             return sb.ToString();
         }
 
