@@ -7,6 +7,14 @@ using StoreManager.Api;
 
 namespace StoreSimulator
 {
+    enum Fileenum
+    {
+        Filename,
+        FileSize,
+        Onlyread,
+        System,
+        Hidden
+    }
     class MountedStorageHandler
     {
         private ILogger MsConsoleLogger;
@@ -111,7 +119,11 @@ namespace StoreSimulator
                             MsConsoleLogger.UserInput($"Give me  {param}: ");
                             fp.Add(Console.ReadLine());
                         }
-                        ChoosedStorage.AddFile(fp[0], Convert.ToInt32(fp[1]), Convert.ToBoolean(fp[2]), fp[3], Convert.ToBoolean(fp[4]));
+                        ChoosedStorage.AddFile(fp[(int)Fileenum.Filename], 
+                                               Convert.ToInt32(fp[(int)Fileenum.FileSize]), 
+                                               Convert.ToBoolean(fp[(int)Fileenum.Onlyread]),
+                                               fp[(int)Fileenum.System],
+                                               Convert.ToBoolean(fp[(int)Fileenum.Hidden]));
 
                     }
                     else if (answer == "check cap" ||answer == "checkcap")

@@ -243,7 +243,7 @@ namespace StoreSimulator
 
                         storages.Add(storage);
                     }
-                    else if (newstorage == "dvd" || newstorage == "floppy" || newstorage == "dvd_rw")
+                    else if (newstorage == "dvd" || newstorage == "floppy" || newstorage == "dvd_rw" || newstorage == "dvd-rw" || newstorage == "dvd rw")
                     {
                         ShConsole.UserInput($"Give me the storage Name : ");
                         string name = Console.ReadLine();
@@ -262,6 +262,10 @@ namespace StoreSimulator
                             Storage storage = new DvD_RW(id, name);
                             storages.Add(storage);
                         }
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Invalid argument");
                     }
                     ShConsole.ConsoleInfo($"The {newstorage} storage has been created");
                     Console.WriteLine();
