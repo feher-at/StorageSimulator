@@ -40,7 +40,7 @@ namespace StoreSimulator
         {
             if (storage is Floppy)
             {
-                foreach (File element in storage.GetFileList())
+                foreach (File element in storage.FileList)
                 {
                     MsConsoleLogger.ConsoleInfo($"name = {element.FileName} filesize = {element.FileSize}Kb " +
                                                 $" OnlyRead = {element.OnlyRead} system = {element.System} " +
@@ -49,7 +49,7 @@ namespace StoreSimulator
             }
             else
             {
-                foreach (File element in storage.GetFileList())
+                foreach (File element in storage.FileList)
                 {
                     MsConsoleLogger.ConsoleInfo($"name = {element.FileName} filesize = {element.FileSize/ 1048576 :F1}GB " +
                                                 $" OnlyRead = {element.OnlyRead} system = {element.System} " +
@@ -136,7 +136,7 @@ namespace StoreSimulator
                     }
                     else if (answer == "remove")
                     {
-                        if (ChoosedStorage.GetFileList().Count == 0)
+                        if (ChoosedStorage.FileList.Count == 0)
                         { MsConsoleLogger.Error("The storage is empty"); }
                         else
                         {

@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
+using System.IO;
+using System.Runtime.Serialization;
 
 namespace StoreManager.Api
 {
-    public class DvD_RW : DVD
+    [Serializable()]
+    public class DvD_RW : DVD, ISerializable
     {
+        public DvD_RW()
+        { }
         public DvD_RW(string Id, string Name) : base(Id, Name)
         {
             this.StoreName = Name;
         }
+
         public void Open()
         {
             if (ReadOnly == false)
@@ -17,7 +24,7 @@ namespace StoreManager.Api
             else
             {
                 this.ReadOnly = false;
-                this.fileList = new List<File>();
+                this.FileList = new List<File>();
             }
         }
 
@@ -27,5 +34,6 @@ namespace StoreManager.Api
             sb.Append($"Id = {Id} Max capacity = {MaxCapacity:F1}GB Name = {StoreName} Type = Dvd-rw");
             return sb.ToString();
         }
+       
     }
 }

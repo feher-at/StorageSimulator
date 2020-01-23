@@ -13,8 +13,8 @@ namespace StoreSimulator
         private ILogger ShConsole;
         private Computer computer = new Computer();
         private List<Storage> storages = new List<Storage>();
-        public string storesfilepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),"AllStores.txt");
-        public string mountedfilepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MountedStores.txt");
+        public string storesfilepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),"AllStores.xml");
+        public string mountedfilepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MountedStores.xml");
         public StorageHandler(ILogger consoleLogger)
         {
             ShConsole = consoleLogger;
@@ -162,11 +162,11 @@ namespace StoreSimulator
         {
             if(System.IO.File.Exists(storesfilepath) && new FileInfo(storesfilepath).Length > 0)
             {
-                ReadfromFile(storesfilepath, storages);
+                FileHandling.DeserializerProcess(storages, storesfilepath);
             }
             if(System.IO.File.Exists(mountedfilepath) && new FileInfo(mountedfilepath).Length > 0)
             {
-                ReadfromFile(mountedfilepath, computer.GetStorages());
+                FileHandling.DeserializerProcess(computer.GetStorages(),mountedfilepath);
             }
             
             while (true)
@@ -408,7 +408,7 @@ namespace StoreSimulator
                         {
                             if (storages[i].Id == modifyingStoreId)
                             {
-                                if (storages[i].GetFileList().Count == 0)
+                                if (storages[i].FileList.Count == 0)
                                 {
                                     ShConsole.UserInput($"Are you sure You want to modify the storage NAME?(yes/no): ");
                                     string removeAnswer = Console.ReadLine().ToLower();
@@ -428,7 +428,7 @@ namespace StoreSimulator
                                         ShConsole.Warning("invalid input");
                                     }
                                 }
-                                else if (storages[i].GetFileList().Count > 0)
+                                else if (storages[i].FileList.Count > 0)
                                 {
                                     ShConsole.Warning("The store is not empty,you can't modify the name");
                                 }
@@ -445,9 +445,9 @@ namespace StoreSimulator
                 else if (answer == "save")
                 {
                     
-                    FileHandling.WriteToStoreFile(storages, storesfilepath);
+                    FileHandling.SerializeProcess(storages, storesfilepath);
                     ShConsole.ConsoleInfo("the storage data has been saved");
-                    FileHandling.WriteToStoreFile(computer.GetStorages(), mountedfilepath);
+                    FileHandling.SerializeProcess(computer.GetStorages(), mountedfilepath);
                     ShConsole.ConsoleInfo("the mounted storage data has been saved");
                     Console.WriteLine();
                         

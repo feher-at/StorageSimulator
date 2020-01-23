@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace StoreManager.Api
 {
+    [XmlInclude(typeof(Hdd))]
+    [XmlInclude(typeof(DVD))]
+    [XmlInclude(typeof(Floppy))]
+    [XmlInclude(typeof(DvD_RW))]
     public abstract class Storage
     {
-        public string Id { get; protected set; }
+        public string Id { get; set; }
         public string StoreName { get; set; }
-        protected List<File> fileList = new List<File>();
-        public double MaxCapacity { get; protected set; }
-        protected double freeCapacity;
-        protected double reservedCapacity;
-        public abstract double FreeCapacity { get; }
-        public abstract double ReservedCapacity { get; }
-
-
-        public List<File> GetFileList()
+        public List<File> FileList = new List<File>();
+        public double MaxCapacity { get; set; }
+        
+        public abstract double FreeCapacity { get; set; }
+        public abstract double ReservedCapacity { get; set; }
+        public Storage()
         {
-            return this.fileList;
         }
         public Storage(string Id, string StoreName)
         {
@@ -36,7 +37,7 @@ namespace StoreManager.Api
         }
         public virtual void Format()
         {
-            this.fileList = new List<File>();
+            this.FileList = new List<File>();
 
         }
 
@@ -45,7 +46,7 @@ namespace StoreManager.Api
 
         public string Search(string fileName)
         {
-            foreach (File element in fileList)
+            foreach (File element in FileList)
             {
                 if (element.FileName == fileName)
                 {
@@ -57,17 +58,17 @@ namespace StoreManager.Api
         public virtual void Remove(string fileName)
         {
 
-            for (int i = 0; i < this.fileList.Count(); i++)
+            for (int i = 0; i < this.FileList.Count(); i++)
             {
 
-                if (fileList[i].FileName == fileName)
+                if (FileList[i].FileName == fileName)
                 {
-                    fileList.Remove(fileList[i]);
+                    FileList.Remove(FileList[i]);
                     return;
 
                 }
 
-                else if (fileList[i].FileName != fileName && i == fileList.Count() - 1)
+                else if (FileList[i].FileName != fileName && i == FileList.Count() - 1)
                 {
                     throw new Exception("There is no such file");
                 }

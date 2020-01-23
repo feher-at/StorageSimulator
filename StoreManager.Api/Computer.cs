@@ -72,12 +72,12 @@ namespace StoreManager.Api
             }
             else
             {
-                foreach(File element in storage1.GetFileList())
+                foreach(File element in storage1.FileList)
                 {
-                    if (storage2.GetFileList().Count > 0)
+                    if (storage2.FileList.Count > 0)
                     {
                         int result = 0;
-                        foreach (File file in storage2.GetFileList())
+                        foreach (File file in storage2.FileList)
                         {
                             if (element.Equals(file))
                             {
