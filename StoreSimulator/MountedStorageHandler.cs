@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using StoreManager.Api;
 
 namespace StoreSimulator
@@ -80,18 +77,20 @@ namespace StoreSimulator
                 }
                 else if (computer.GetStorages()[i].Id != SelectedMountID && i == computer.GetStorages().Count - 1)
                 {
-                    break;
+                    throw new NullReferenceException("there is no such storage on the computer");
+                    
                 }
             }
             Console.WriteLine();
-            throw new Exception("there is no such storage on the computer");
+            throw new Exception("Something is wrong");
+            
             
         }
         public void MountedMenu()
         {
             if(computer.GetStorages().Count == 0)
             {
-                MsConsoleLogger.Error("Mount a storage first");
+                MsConsoleLogger.Warning("Mount a storage first");
                 return;
                 
             }
@@ -100,121 +99,183 @@ namespace StoreSimulator
                 Storage ChoosedStorage = SelectMounted();
                 while (true)
                 {
-
-                    MountedMenuList();
-                    MsConsoleLogger.UserInput("Choose a menu: ");
-                    string answer = Console.ReadLine().ToLower();
-
-                    if (answer == "addfile" || answer == "add file")
+                    try
                     {
+                        MountedMenuList();
+                        MsConsoleLogger.UserInput("Choose a menu: ");
+                        string answer = Console.ReadLine().ToLower();
 
-                        string[] fileParams = new string[] {  "file name",
-                                                                "file size",
-                                                                "only read(true/false)",
-                                                                "system",
-                                                                "hidden(true/false)"};
-                        List<string> fp = new List<string>();
-                        foreach (string param in fileParams)
+                        if (answer == "addfile" || answer == "add file")
                         {
-                            MsConsoleLogger.UserInput($"Give me  {param}: ");
-                            fp.Add(Console.ReadLine());
-                        }
-                        ChoosedStorage.AddFile(fp[(int)Fileenum.Filename], 
-                                               Convert.ToInt32(fp[(int)Fileenum.FileSize]), 
-                                               Convert.ToBoolean(fp[(int)Fileenum.Onlyread]),
-                                               fp[(int)Fileenum.System],
-                                               Convert.ToBoolean(fp[(int)Fileenum.Hidden]));
 
-                    }
-                    else if (answer == "check cap" ||answer == "checkcap")
-                    {
-                        if (ChoosedStorage is DVD || ChoosedStorage is DvD_RW || ChoosedStorage is Hdd)
-                        {
-                            MsConsoleLogger.ConsoleInfo($"max capacity = {ChoosedStorage.MaxCapacity:F1}GB" +
-                                                        $" free capacity = {ChoosedStorage.FreeCapacity:F1}GB" +
-                                                        $" reserved capacity = {ChoosedStorage.ReservedCapacity:F1}GB");
+                            string[] fileParams = new string[] {  "file name",
+                                                                    "file size",
+                                                                    "only read(true/false)",
+                                                                    "system",
+                                                                    "hidden(true/false)"};
+                            List<string> fp = new List<string>();
+                            foreach (string param in fileParams)
+                            {
+
+                                if (param == "file size")
+                                {
+                                    while (true)
+                                    {
+                                        MsConsoleLogger.UserInput($"Give me  {param}: ");
+                                        int n;
+                                        bool isNumeric = int.TryParse(Console.ReadLine(), out n);
+                                        if (isNumeric && n > 0)
+                                        {
+                                            fp.Add(Convert.ToString(n));
+                                            break;
+                                        }
+                                        else
+                                            MsConsoleLogger.Warning("Give me a proper file size");
+                                    }
+                                }
+                                else if (param == "only read(true/false)")
+                                {
+
+                                    while (true)
+                                    {
+                                        MsConsoleLogger.UserInput($"Give me  {param}: ");
+                                        string paramanswer = Console.ReadLine().ToLower();
+                                        if (paramanswer == "true" || paramanswer == "false")
+                                        {
+                                            fp.Add(paramanswer);
+                                            break;
+                                        }
+                                        else
+                                            MsConsoleLogger.Warning("Give me a proper argument(false/true)");
+                                    }
+                                }
+                                else if (param == "hidden(true/false)")
+                                {
+                                    while (true)
+                                    {
+                                        MsConsoleLogger.UserInput($"Give me  {param}: ");
+                                        string paramanswer = Console.ReadLine().ToLower();
+                                        if (paramanswer == "true" || paramanswer == "false")
+                                        {
+                                            fp.Add(paramanswer);
+                                            break;
+                                        }
+                                        else
+                                            MsConsoleLogger.Warning("Give me a proper argument(false/true)");
+                                    }
+                                }
+                                else
+                                {
+                                    MsConsoleLogger.UserInput($"Give me  {param}: ");
+                                    fp.Add(Console.ReadLine());
+                                }
+                            }
+                            ChoosedStorage.AddFile(fp[(int)Fileenum.Filename],
+                                                   Convert.ToInt32(fp[(int)Fileenum.FileSize]),
+                                                   Convert.ToBoolean(fp[(int)Fileenum.Onlyread]),
+                                                   fp[(int)Fileenum.System],
+                                                   Convert.ToBoolean(fp[(int)Fileenum.Hidden]));
+                            MsConsoleLogger.ConsoleInfo("The file has been added to the storage");
+                            Console.WriteLine();
                         }
-                        else if (ChoosedStorage is Floppy)
+                        else if (answer == "check cap" || answer == "checkcap")
                         {
-                            MsConsoleLogger.ConsoleInfo($"max capacity = {ChoosedStorage.MaxCapacity:F1}Kb" +
-                                                       $" free capacity = {ChoosedStorage.FreeCapacity:F1}Kb" +
-                                                       $" reserved capacity = {ChoosedStorage.ReservedCapacity:F1}Kb");
+                            if (ChoosedStorage is DVD || ChoosedStorage is DvD_RW || ChoosedStorage is Hdd)
+                            {
+                                MsConsoleLogger.ConsoleInfo($"max capacity = {ChoosedStorage.MaxCapacity:F1}GB" +
+                                                            $" free capacity = {ChoosedStorage.FreeCapacity:F1}GB" +
+                                                            $" reserved capacity = {ChoosedStorage.ReservedCapacity:F1}GB");
+                            }
+                            else if (ChoosedStorage is Floppy)
+                            {
+                                MsConsoleLogger.ConsoleInfo($"max capacity = {ChoosedStorage.MaxCapacity:F1}Kb" +
+                                                           $" free capacity = {ChoosedStorage.FreeCapacity:F1}Kb" +
+                                                           $" reserved capacity = {ChoosedStorage.ReservedCapacity:F1}Kb");
+                            }
+
                         }
-                    
-                    }
-                    else if (answer == "list file" || answer == "listfile")
-                    {
-                        ListFile(ChoosedStorage);
-                    }
-                    else if (answer == "remove")
-                    {
-                        if (ChoosedStorage.FileList.Count == 0)
-                        { MsConsoleLogger.Error("The storage is empty"); }
-                        else
+                        else if (answer == "list file" || answer == "listfile")
                         {
                             ListFile(ChoosedStorage);
+                        }
+                        else if (answer == "remove")
+                        {
+                            if (ChoosedStorage.FileList.Count == 0)
+                            { throw new NullReferenceException("The storage is empty"); }
+                            else
+                            {
+                                ListFile(ChoosedStorage);
+                                Console.WriteLine();
+                                MsConsoleLogger.UserInput("Give me the file which you want to delete: ");
+                                string fileYouWantToRemove = Console.ReadLine();
+                                ChoosedStorage.Remove(fileYouWantToRemove);
+                            }
+                        }
+                        else if (answer == "archive")
+                        {
+                            Storage secondStorage = SelectMounted();
+                            List<File> mutualFiles = computer.Archive(ChoosedStorage, secondStorage);
+                            foreach (File file in mutualFiles)
+                            {
+                                MsConsoleLogger.ConsoleInfo($"{file.ToString()} is already on the {secondStorage.StoreName} storage ");
+                            }
+                            MsConsoleLogger.ConsoleInfo($"The unmutual files has been archive to the {secondStorage} storage");
                             Console.WriteLine();
-                            MsConsoleLogger.UserInput("Give me the file which you want to delete: ");
-                            string fileYouWantToRemove = Console.ReadLine();
-                            ChoosedStorage.Remove(fileYouWantToRemove);
+                        }
+                        else if (answer == "format")
+                        {
+                            ChoosedStorage.Format();
+                            MsConsoleLogger.ConsoleInfo($"The {ChoosedStorage.StoreName} has been formatted");
+                            Console.WriteLine();
+                        }
+                        else if (answer == "setdefense" || answer == "set defense")
+                        {
+                            if (ChoosedStorage is DvD_RW || ChoosedStorage is DVD)
+                            {
+                                DVD dvd = (DVD)ChoosedStorage;
+                                dvd.Block();
+                                MsConsoleLogger.ConsoleInfo("The dvd's write defense has been set");
+                                
+                            }
+                            else if (ChoosedStorage is Floppy)
+                            {
+                                Floppy floppy = (Floppy)ChoosedStorage;
+                                floppy.TurnOnWriteDefense();
+                                MsConsoleLogger.ConsoleInfo("The floppy's write defense has been set");
+                            }
+                            else if (!(ChoosedStorage is Floppy) && !(ChoosedStorage is DVD) && !(ChoosedStorage is DvD_RW))
+                            {
+                                throw new InvalidCastException("To this storage has no write defense ");
+                            }
+                            Console.WriteLine();
+                        }
+                        else if (answer == "open")
+                        {
+                            if (ChoosedStorage is DvD_RW)
+                            {
+                                DvD_RW dvd_rw = (DvD_RW)ChoosedStorage;
+                                dvd_rw.Open();
+                                MsConsoleLogger.ConsoleInfo("You can write again on this storage,but all saved file what was on this storage has been removed");
+                            }
+                            else if (!(ChoosedStorage is DvD_RW))
+                            {
+                                throw new InvalidCastException("This is not a dvd_rw storage please select another mounted storage,wich type is dvd_rw");
+                            }
+                        }
+                        else if (answer == "exit")
+                        {
+                            MsConsoleLogger.ConsoleInfo("Go back to the storage menu");
+                            Console.WriteLine();
+                            break;
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Invalid argument");
                         }
                     }
-                    else if (answer == "archive")
+                    catch(Exception ex)
                     {
-                        Storage secondStorage = SelectMounted();
-                        List<File> mutualFiles = computer.Archive(ChoosedStorage, secondStorage);
-                        foreach(File file in mutualFiles)
-                        {
-                            MsConsoleLogger.ConsoleInfo($"{file.ToString()} is already on the {secondStorage.StoreName} storage ");
-                        }
-                    }
-                    else if (answer == "format")
-                    {
-                        ChoosedStorage.Format();
-                        MsConsoleLogger.ConsoleInfo($"The {ChoosedStorage.StoreName} has been formatted");
-
-                    }
-                    else if (answer == "setdefense" || answer == "set defense")
-                    {
-                        if (ChoosedStorage is DvD_RW || ChoosedStorage is DVD)
-                        {
-                            DVD dvd = (DVD)ChoosedStorage;
-                            dvd.Block();
-                            MsConsoleLogger.ConsoleInfo("The dvd's write defense has been set");
-                        }
-                        else if (ChoosedStorage is Floppy)
-                        {
-                            Floppy floppy = (Floppy)ChoosedStorage;
-                            floppy.TurnOnWriteDefense();
-                            MsConsoleLogger.ConsoleInfo("The floppy's write defense has been set");
-                        }
-                        else if (!(ChoosedStorage is Floppy) && !(ChoosedStorage is DVD) && !(ChoosedStorage is DvD_RW))
-                        {
-                            throw new Exception("To this storage has no write defense ");
-                        }
-                    }
-                    else if (answer == "open")
-                    {
-                        if (ChoosedStorage is DvD_RW)
-                        {
-                            DvD_RW dvd_rw = (DvD_RW)ChoosedStorage;
-                            dvd_rw.Open();
-                            MsConsoleLogger.ConsoleInfo("You can write again on this storage,all saved file what was on this storage has been removed");
-                        }
-                        else if(!(ChoosedStorage is DvD_RW))
-                        {
-                            throw new Exception("This is not a dvd_rw storage please select another mounted storage,wich type is dvd_rw");
-                        }
-                    }
-                    else if(answer == "exit")
-                    {
-                        MsConsoleLogger.ConsoleInfo("Go back to the storage menu");
-                        Console.WriteLine();
-                        break;
-                    }
-                    else
-                    {
-                        throw new Exception("Invalid argument");
+                        MsConsoleLogger.Error(ex.Message);
                     }
                 }
             }

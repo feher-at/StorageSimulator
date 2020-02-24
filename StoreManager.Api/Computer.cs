@@ -15,7 +15,7 @@ namespace StoreManager.Api
         }
 
 
-        public void PutOn(string Id, List<Storage> storageList)
+        public void Mount(string Id, List<Storage> storageList)
         {
             for (int i = 0; i < storageList.Count; i++)
             {
@@ -32,29 +32,6 @@ namespace StoreManager.Api
                 {
                     throw new Exception("There is no such store");
                 }
-            }
-        }
-
-        public void AllCapacity()
-        {
-            foreach (Storage element in Storages)
-                Console.WriteLine($"the {element.StoreName} max capacity is : {element.MaxCapacity}");
-        }
-        public void AllFreeCapacity()
-        {
-            foreach (Storage element in Storages)
-            {
-
-                Console.WriteLine($"the {element.StoreName} free capacity is : {element.MaxCapacity} / {element.FreeCapacity}");
-            }
-        }
-        public void AllReservedCapacity()
-        {
-            foreach (Storage element in Storages)
-            {
-
-
-                Console.WriteLine($"the {element.StoreName} reserved capacity is : {element.MaxCapacity} / {element.ReservedCapacity}");
             }
         }
         public List<File> Archive(Storage storage1,Storage storage2)

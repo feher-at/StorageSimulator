@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace StoreManager.Api
@@ -88,6 +86,10 @@ namespace StoreManager.Api
             }
 
             return this.Id == ((Storage)obj).Id && this.StoreName == ((Storage)obj).StoreName;
+        }
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode() ^ this.StoreName.GetHashCode();
         }
 
 
