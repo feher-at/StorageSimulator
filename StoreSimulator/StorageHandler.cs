@@ -106,7 +106,7 @@ namespace StoreSimulator
                     {
                         if (computer.GetStorages().Count == 0)
                         {
-                            ShConsole.Warning("Mount at least one storage first");
+                            throw new NullReferenceException("Mount at least one storage first");
                         }
                         else
                         {
@@ -118,7 +118,7 @@ namespace StoreSimulator
                     {
                         if (storages.Count == 0)
                         {
-                            ShConsole.Warning("Make at least one storage first");
+                            throw new NullReferenceException("Make at least one storage first");
                         }
                         else
                         {
@@ -130,7 +130,7 @@ namespace StoreSimulator
                     {
                         if (storages.Count == 0)
                         {
-                            ShConsole.Warning("Make one storage at least!");
+                            throw new NullReferenceException("Make one storage at least!");
                         }
                         else
                         {
@@ -203,7 +203,7 @@ namespace StoreSimulator
                     {
                         if (storages.Count == 0)
                         {
-                            ShConsole.Warning("Create a storage first please");
+                            throw new NullReferenceException("Create a storage first please");
                         }
                         else
                         {
@@ -222,22 +222,25 @@ namespace StoreSimulator
 
                                         ShConsole.ConsoleInfo($"the {storages[i].StoreName} has been deleted");
                                         storages.Remove(storages[i]);
+                                       
                                     }
                                     else if (deleteAnswer == "no" || deleteAnswer == "n")
                                     {
                                         ShConsole.ConsoleInfo("the deleting process has been declined");
+                                        
                                     }
                                     else
                                     {
                                         throw new ArgumentException("invalid input");
                                     }
-                                    break;
+                                    
                                 }
                                 else if (storages[i].Id != deletingStoreId && i == storages.Count() - 1)
                                 {
                                     throw new NullReferenceException("There is no such store");
                                 }
                             }
+                            
                             Console.WriteLine();
                         }
                     }
