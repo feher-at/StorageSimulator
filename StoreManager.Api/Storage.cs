@@ -14,7 +14,19 @@ namespace StoreManager.Api
         public string Id { get; set; }
         public string StoreName { get; set; }
         public List<File> FileList = new List<File>();
-        public double MaxCapacity { get; set; }
+        private double maxCapacity;
+        public double MaxCapacity { get { return maxCapacity; } 
+            set 
+            { 
+                if(value < 0)
+                {
+                    throw new Exception("This is an invalid capacity number");
+                }
+                else
+                {
+                    maxCapacity = value;
+                }
+            } }
         
         public abstract double FreeCapacity { get; set; }
         public abstract double ReservedCapacity { get; set; }
@@ -42,17 +54,17 @@ namespace StoreManager.Api
         public abstract void AddFile(string fileName, double fileSize, bool onlyRead, string system, bool hidden);
         
 
-        public string Search(string fileName)
-        {
-            foreach (File element in FileList)
-            {
-                if (element.FileName == fileName)
-                {
-                    return element.ToString();
-                }
-            }
-            throw new Exception($"There is no such filename: {fileName}");
-        }
+        //public string Search(string fileName)
+        //{
+        //    foreach (File element in FileList)
+        //    {
+        //        if (element.FileName.ToLower() == fileName.ToLower())
+        //        {
+        //            return element.ToString();
+        //        }
+        //    }
+        //    throw new Exception($"There is no such filename: {fileName}");
+        //}
         public virtual void Remove(string fileName)
         {
 

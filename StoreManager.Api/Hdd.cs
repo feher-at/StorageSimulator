@@ -61,7 +61,7 @@ namespace StoreManager.Api
             {
                 foreach (File element in FileList)
                 {
-                    if (element.FileName == fileName)
+                    if (element.FileName.ToLower() == fileName.ToLower())
                         throw new Exception("This file is already in the file list");
                 }
             }
